@@ -1,0 +1,316 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Server API"
+  description: "Manage the (CRUD)"
+host: localhost:5000
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+  - application/vnd.api+json
+produces:
+  - application/vnd.api+json
+
+paths:
+  /phones:
+    get:
+      description: Retrieves all phones data
+      parameters:
+        - name: x-api-key
+          in: header
+          description: The key required to validate that the request is coming from an allowed domain
+          required: true
+          type: string
+        - name: origin
+          in: header
+          description: The location from where the request was made
+          required: true
+          type: string
+        - name: authorization
+          in: header
+          description: The key required to validate that the user is allowed to access resources
+          required: true
+          type: string
+        - name: phones
+          in: path
+          description: The phones
+          required: true
+          type: string
+      responses:
+        "200":
+          description: An list of phones
+          schema:
+            $ref: '#/definitions/PhonesListResponse'
+        "400":
+          description: One or more required parameters is missing
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: The request is not authorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: The execution of the request failed
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /phone:
+    post:
+      description: Saves the phone result
+      parameters:
+        - name: x-api-key
+          in: header
+          description: The key required to validate that the request is coming from an allowed domain
+          required: true
+          type: string
+        - name: origin
+          in: header
+          description: The location from where the request was made
+          required: true
+          type: string
+        - name: authorization
+          in: header
+          description: The key required to validate that the user is allowed to access resources
+          required: true
+          type: string
+        - name: phone
+          in: path
+          description: The phone identifier
+          required: true
+          type: stirng
+        - name: Result
+          in: body
+          description: Data used to save
+          required: true
+      responses:
+        "200":
+          description: A list of fields
+        "400":
+          description: One or more required parameters is missing
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: The request is not authorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: The requested form does not exist
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: The execution of the request failed
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /phones/{id}:
+    put:
+      description: Update a phone result
+      parameters:
+        - name: x-api-key
+          in: header
+          description: The key required to validate that the request is coming from an allowed domain
+          required: true
+          type: string
+        - name: origin
+          in: header
+          description: The location from where the request was made
+          required: true
+          type: string
+        - name: authorization
+          in: header
+          description: The key required to validate that the user is allowed to access resources
+          required: true
+          type: string
+        - name: phones
+          in: path
+          description: The phone identifier
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The phone identifier
+          required: true
+          type: number
+        - name: resultId
+          in: path
+          description: The result identifier
+          required: true
+          type: number
+        - name: Result
+          in: body
+          description: Result's data to be updated
+          required: true
+      responses:
+        "204":
+          description: Successful operation
+        "400":
+          description: One or more required parameters is missing
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: The request is not authorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: The requested form does not exist
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: The execution of the request failed
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+  /phone/{id}:
+    delete:
+      description: Delete a phone
+      parameters:
+        - name: x-api-key
+          in: header
+          description: The key required to validate that the request is coming from an allowed domain
+          required: true
+          type: string
+        - name: origin
+          in: header
+          description: The location from where the request was made
+          required: true
+          type: string
+        - name: authorization
+          in: header
+          description: The key required to validate that the user is allowed to access resources
+          required: true
+          type: string
+        - name: phones
+          in: path
+          description: The phone identifier
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: The phone identifier
+          required: true
+          type: number
+        - name: resultId
+          in: path
+          description: The result identifier
+          required: true
+          type: number
+        - name: Result
+          in: body
+          description: Result's data to be updated
+          required: true
+      responses:
+        "204":
+          description: Successful operation
+        "400":
+          description: One or more required parameters is missing
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "401":
+          description: The request is not authorized
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: The requested form does not exist
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "500":
+          description: The execution of the request failed
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+definitions:
+  PhonesListResponse:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/PhonesListData'
+
+  PhonesListData:
+    type: object
+    required:
+      - type
+      - serial
+      - color
+      - meta
+    properties:
+      type:
+        type: string
+      id:
+        type: string
+      serial:
+        type: string
+      color:
+        type: string
+      meta:
+        type: string
+
+  PhonesResponse:
+    type: object
+    required:
+      - data
+    properties:
+      data:
+        $ref: '#/definitions/PhonesData'
+
+  PhonesData:
+    type: object
+    required:
+      - type
+      - serial
+      - color
+      - meta
+    properties:
+      type:
+        type: string
+        id:
+          type: string
+        serial:
+          type: string
+        color:
+          type: string
+        meta:
+          type: string
+      attributes:
+        $ref: '#/definitions/PhonesData'
+
+  ErrorResponse:
+    required:
+      - errors
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+
+  Error:
+    required:
+      - status
+      - details
+      - code
+    properties:
+      status:
+        type: number
+      details:
+        type: string
+      code:
+        type: string
